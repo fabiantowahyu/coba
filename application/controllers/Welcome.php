@@ -52,13 +52,32 @@ class Welcome extends CI_Controller {
         
         public function saveData(){
             
-            $data = array(
-                'nama_depan'=> $this->input->post('namadepan'),
-                 'nama_belakang'=> $this->input->post('namabelakang'),
-            );
-           
+          $procedure =" 
+            CREATE PROCEDURE insertUser(IN firstName varchar(250), lastName varchar(250))  
+                BEGIN  
+                INSERT INTO data_karyawan(nama_depan, nama_belakang) VALUES (firstName, lastName);   
+                END;  
+            ";
+          
+         $this->db->query($procedure);
+         
+         
+         $namadepan =$this->input->post('namadepan');
+         $namabelakang =$this->input->post('namabelakang');
             
-            $res = $this->db->insert('data_karyawan',$data);
+         $res = $this->db->query("CALL insertUser($namadepan,$namabelakang)");
+//            $data = array(
+//                'nama_depan'=> $this->input->post('namadepan'),
+//                 'nama_belakang'=> $this->input->post('namabelakang'),
+//            );
+//           
+//            
+//            $res = $this->db->insert('data_karyawan',$data);
+            
+            
+            
+            
+            
             echo json_encode($res);
         }
        
