@@ -13,9 +13,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
         <script src="<?php echo base_url(); ?>theme/jquery.min.js" ></script>
-        
-        
-        
+
+
+
         <style type="text/css">
 
             ::selection { background-color: #E13300; color: white; }
@@ -86,16 +86,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <form>
                         <div class="form-group">
                             <label>Nama Depan</label>
-                            <input class="form-control" type="text">
+                            <input id="input_namadepan" class="form-control" type="text">
 
                             <div class="form-group">
                                 <label>Nama Belakang</label>
-                                <input class="form-control" type="text">
+                                <input id="input_namabelakang" class="form-control" type="text">
                             </div>
 
                             <div class="pull-right">
                                 <button class="btn btn-sm btn-primary"><i class="fa fa-backward"></i>Reset</button>
-                                <button class="btn btn-sm btn-success"> <i class="fa fa-save"></i>Save</button>
+                                <button id="btn_submit" class="btn btn-sm btn-success"> <i class="fa fa-save"></i>Save</button>
 
                             </div>
                     </form>
@@ -132,12 +132,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
             $(document).ready(function () {
 
-            getAllData();
-        //alert("test");
+                getAllData();
+                //alert("test");
 
                 function getAllData() {
+                    $('#input_namadepan').val('');
+                    $('#input_namabelakang').val('');
                     $.ajax({
-                        url:'<?php echo base_url(); ?>index.php/welcome/getAllData',
+                        url: '<?php echo base_url(); ?>index.php/welcome/getAllData',
                         type: 'get',
                         dataType: 'json',
                         data: {
@@ -150,7 +152,35 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     });
                 }
             });
-            
+
+            $('#btn_submit').click(function () {
+
+                alert("coba");
+
+                var namadepan = $('#input_namadepan').val();
+                var namabelakang = $('#input_namabelakang').val();
+
+
+                $.ajax({
+                    url: '<?php echo base_url(); ?>index.php/welcome/saveData',
+                    type: 'post',
+                    dataType: 'json',
+                    data: {namadepan: namadepan,
+                        namabelakang: namabelakang
+
+                    },
+                            
+                    success: function (data) {
+
+                        $('#content').html(data);
+                    }
+                });
+
+
+
+
+
+            });
 
         </script>
     </body>

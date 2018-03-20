@@ -47,5 +47,19 @@ class Welcome extends CI_Controller {
             echo json_encode($content);
         }
         
+        
+        
+        
+        public function saveData(){
+            
+            $data = array(
+                'nama_depan'=> $this->input->post('namadepan'),
+                 'nama_belakang'=> $this->input->post('namabelakang'),
+            );
+           
+            
+            $res = $this->db->insert('data_karyawan',$data);
+            echo json_encode($res);
+        }
        
 }
