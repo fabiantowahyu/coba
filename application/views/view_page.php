@@ -113,11 +113,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
+<!--                                <tr>
                                     <td>Fabianto</td>
                                     <td>Wahyu</td>
                                     <td>Perum Munjul Jaya Permai</td>
-                                </tr>
+                                </tr>-->
 
                             </tbody>
                         </table>
@@ -133,11 +133,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             $(document).ready(function () {
 
             getAllData();
-alert("test");
+        //alert("test");
 
                 function getAllData() {
                     $.ajax({
-                        url:'<?php echo base_url(); ?>welcome/getAllData',
+                        url:'<?php echo base_url(); ?>index.php/welcome/getAllData',
                         type: 'get',
                         dataType: 'json',
                         data: {
