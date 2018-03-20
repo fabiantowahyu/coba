@@ -85,6 +85,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <div class="col-md-12">
                     <form>
                         <div class="form-group">
+                            <input type="text" name="id" id="id_row">
+                            <input type="text" name="action" id="action">
                             <label>Nama Depan</label>
                             <input id="input_namadepan" class="form-control" type="text">
 
@@ -94,8 +96,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             </div>
 
                             <div class="pull-right">
-                                <button class="btn btn-sm btn-primary"><i class="fa fa-backward"></i>Reset</button>
-                                <button id="btn_submit" class="btn btn-sm btn-success"> <i class="fa fa-save"></i>Save</button>
+                                <button type="button" class="btn btn-sm btn-primary"><i class="fa fa-backward"></i>Reset</button>
+                                <button type="button" id="btn_submit" class="btn btn-sm btn-success"> <i class="fa fa-save"></i>Save</button>
 
                             </div>
                     </form>
@@ -153,12 +155,38 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 }
             });
 
+            $('.edit-btn').click(function () {
+
+
+                alert("asd");
+//$('#namadepan').val();
+
+            });
+
+            function editfunction(id) {
+                $('#id_row').val(id);
+                $('#action').val('edit');
+                $('#input_namadepan').val($('#nama_depan'+id).text());
+                $('#input_namabelakang').val($('#nama_belakang'+id).text());
+                
+                
+                alert(id);
+            }
+            
+            function deletefunction(id) {
+
+                alert(id);
+            }
+
+
             $('#btn_submit').click(function () {
 
-                alert("coba");
+                //alert("coba");
 
                 var namadepan = $('#input_namadepan').val();
                 var namabelakang = $('#input_namabelakang').val();
+                var action = $('#action').val();
+                var id_row = $('#id_row').val();
 
 
                 $.ajax({
@@ -166,10 +194,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     type: 'post',
                     dataType: 'json',
                     data: {namadepan: namadepan,
-                        namabelakang: namabelakang
-
+                        namabelakang: namabelakang,
+                         action: action,  
+                         id_row: id_row, 
                     },
-                            
+
                     success: function (data) {
 
                         $('#content').html(data);
