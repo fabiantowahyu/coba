@@ -137,22 +137,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 getAllData();
                 //alert("test");
 
-                function getAllData() {
-                    $('#input_namadepan').val('');
-                    $('#input_namabelakang').val('');
-                    $.ajax({
-                        url: '<?php echo base_url(); ?>index.php/welcome/getAllData',
-                        type: 'get',
-                        dataType: 'json',
-                        data: {
 
-                        },
-                        success: function (data) {
-
-                            $('#content').html(data);
-                        }
-                    });
-                }
             });
 
             $('.edit-btn').click(function () {
@@ -166,19 +151,50 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             function editfunction(id) {
                 $('#id_row').val(id);
                 $('#action').val('edit');
-                $('#input_namadepan').val($('#nama_depan'+id).text());
-                $('#input_namabelakang').val($('#nama_belakang'+id).text());
-                
-                
+                $('#input_namadepan').val($('#nama_depan' + id).text());
+                $('#input_namabelakang').val($('#nama_belakang' + id).text());
+
+
                 alert(id);
             }
-            
+
             function deletefunction(id) {
 
-                alert(id);
+
+                $.ajax({
+                    url: '<?php echo base_url(); ?>index.php/welcome/deleteData',
+                    type: 'post',
+                    dataType: 'json',
+                    data: {
+                        id_row: id
+                    },
+
+                    success: function (data) {
+                        if ( data== true) {
+                        alert("delete success");
+                        getAllData();
+                    }
+                    }
+                });
+
             }
 
+            function getAllData() {
+                $('#input_namadepan').val('');
+                $('#input_namabelakang').val('');
+                $.ajax({
+                    url: '<?php echo base_url(); ?>index.php/welcome/getAllData',
+                    type: 'get',
+                    dataType: 'json',
+                    data: {
 
+                    },
+                    success: function (data) {
+
+                        $('#content').html(data);
+                    }
+                });
+            }
             $('#btn_submit').click(function () {
 
                 //alert("coba");
@@ -195,13 +211,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     dataType: 'json',
                     data: {namadepan: namadepan,
                         namabelakang: namabelakang,
-                         action: action,  
-                         id_row: id_row, 
+                        action: action,
+                        id_row: id_row,
                     },
 
                     success: function (data) {
-
-                        $('#content').html(data);
+                        if ( data== true) {
+                            getAllData();
+                            $('#id_row').val('');
+                            $('#action').val('');
+                        }
                     }
                 });
 

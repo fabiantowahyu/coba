@@ -60,20 +60,22 @@ class Welcome extends CI_Controller {
 
 
         if ($action != 'edit') {
-            $procedure = " 
-            CREATE PROCEDURE insertUser(IN firstName varchar(250), lastName varchar(250))  
-                BEGIN  
-                INSERT INTO data_karyawan(nama_depan, nama_belakang) VALUES (firstName, lastName);   
-                END;  
-            ";
-
-            $this->db->query($procedure);
+//            $procedure = " 
+//            CREATE PROCEDURE insertUser(IN firstName varchar(250), lastName varchar(250))  
+//                BEGIN  
+//                INSERT INTO data_karyawan(nama_depan, nama_belakang) VALUES (firstName, lastName);   
+//                END;  
+//            ";
+//
+//            $this->db->query($procedure);
 
 
             $namadepan = $this->input->post('namadepan');
             $namabelakang = $this->input->post('namabelakang');
 
-            $res = $this->db->query("CALL insertUser($namadepan,$namabelakang)");
+            $res = $this->db->query("CALL insertUser('$namadepan','$namabelakang')");
+            
+            //var_dump($res->result_id);
 //            $data = array(
 //                'nama_depan'=> $this->input->post('namadepan'),
 //                 'nama_belakang'=> $this->input->post('namabelakang'),
@@ -83,25 +85,45 @@ class Welcome extends CI_Controller {
 //            $res = $this->db->insert('data_karyawan',$data);
         } else {
 
-            $procedure = " 
-            CREATE PROCEDURE updateUser(id_row int, namadepan varchar(100), namabelakang varchar (200))  
-                BEGIN  
-                UPDATE data_karyawan set  nama_depan=namadepan, nama_belakang=namabelakang  where id=id_row
-                END;   
-            ";
-
-            $this->db->query($procedure);
+//            $procedure = " 
+//            CREATE PROCEDURE updateUser(id_row int, namadepan varchar(100), namabelakang varchar (200))  
+//                BEGIN  
+//                UPDATE data_karyawan set  nama_depan=namadepan, nama_belakang=namabelakang  where id=id_row;
+//                END;   
+//            ";
+//
+//            $this->db->query($procedure);
 
 
             $namadepan = $this->input->post('namadepan');
             $namabelakang = $this->input->post('namabelakang');
             $id_row = $this->input->post('id_row');
 
-            $res = $this->db->query("CALL updateUser($id_row,$namadepan,$namabelakang)");
+            $res = $this->db->query("CALL updateUser($id_row,'$namadepan','$namabelakang')");
         }
 
 
-        echo json_encode($res);
+        echo json_encode($res->result_id);
     }
 
+    public function deleteData() {
+        
+        $id_row = $this->input->post('id_row');
+        
+//        $procedure = " 
+//            CREATE PROCEDURE deleteUser(id_row int)  
+//                BEGIN  
+//                delete from  data_karyawan where id=id_row;
+//                END;   
+//            ";
+//
+//            $this->db->query($procedure);
+        
+        
+        $res = $this->db->query("CALL deleteUser($id_row)");
+        
+        echo json_encode($res->result_id);
+    }
+    
+    
 }
